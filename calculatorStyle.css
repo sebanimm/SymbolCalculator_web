@@ -58,9 +58,10 @@ label:active > img{
 }
 
 #container > p {
+    -webkit-text-stroke: 3px black;
     text-align: center;
     color: white;
-    font-size: 70px;
+    font-size: 90px;
     font-family: "tmon";
 }
 
