@@ -13,7 +13,7 @@
 <body>
     <div id="container">
         <p>심볼 계산기</p>
-        <div id="box">
+        <div id="box_main">
             <div id="symbol_type">
                 <h2>아케인 심볼</h2>
                 <div class="symbol">
@@ -21,37 +21,37 @@
                         <label for="arcSym_1st">
                             <img src="./image/ArcaneSymbol/VanishingJourney.png" title="아케인 심볼 : 소멸의 여로">
                         </label>
-                        <input type="checkbox" id="arcSym_1st" name="symbol_check" onclick="onlyOneInput(this)"> 
+                        <input type="checkbox" value="1" id="arcSym_1st" name="symbol_check" onclick="onlyOneInput(this)"> 
                     </div>
                     <div>
                         <label for="arcSym_2nd">
                             <img src="./image/ArcaneSymbol/ChewChewIsland.png" title="아케인 심볼 : 츄츄 아일랜드">
                         </label>
-                        <input type="checkbox" id="arcSym_2nd" name="symbol_check" onclick="onlyOneInput(this)"> 
+                        <input type="checkbox" value="2" id="arcSym_2nd" name="symbol_check" onclick="onlyOneInput(this)"> 
                     </div>
                     <div>
                         <label for="arcSym_3rd">
                             <img src="./image/ArcaneSymbol/Lachelen.png" title="아케인 심볼 : 레헬른">
                         </label>
-                        <input type="checkbox" id="arcSym_3rd" name="symbol_check" onclick="onlyOneInput(this)"> 
+                        <input type="checkbox" value="3" id="arcSym_3rd" name="symbol_check" onclick="onlyOneInput(this)"> 
                     </div>
                     <div>
                         <label for="arcSym_4th">
                             <img src="./image/ArcaneSymbol/Arcana.png" title="아케인 심볼 : 아르카나">
                         </label>
-                        <input type="checkbox" id="arcSym_4th" name="symbol_check" onclick="onlyOneInput(this)"> 
+                        <input type="checkbox" value="4" id="arcSym_4th" name="symbol_check" onclick="onlyOneInput(this)"> 
                     </div>
                     <div>
                         <label for="arcSym_5th">
                             <img src="./image/ArcaneSymbol/Morass.png" title="아케인 심볼 : 모라스">
                         </label>
-                        <input type="checkbox" id="arcSym_5th" name="symbol_check" onclick="onlyOneInput(this)"> 
+                        <input type="checkbox" value="5" id="arcSym_5th" name="symbol_check" onclick="onlyOneInput(this)"> 
                     </div>
                     <div>
                         <label for="arcSym_6th">
                             <img src="./image/ArcaneSymbol/Esfera.png" title="아케인 심볼 : 에스페라">
                         </label>
-                        <input type="checkbox" id="arcSym_6th" name="symbol_check" onclick="onlyOneInput(this)"> 
+                        <input type="checkbox" value="6" id="arcSym_6th" name="symbol_check" onclick="onlyOneInput(this)"> 
                     </div>
                 </div>
                 <h2>어센틱 심볼</h2>
@@ -60,13 +60,13 @@
                         <label for="autSym_1st">
                             <img src="./image/AuthenticSymbol/Cernium.png" title="어센틱 심볼 : 세르니움">
                         </label>
-                        <input type="checkbox" id="autSym_1st" name="symbol_check" onclick="onlyOneInput(this)"> 
+                        <input type="checkbox" value="7" id="autSym_1st" name="symbol_check" onclick="onlyOneInput(this)"> 
                     </div>
                     <div>
                         <label for="autSym_2nd">
                             <img src="./image/AuthenticSymbol/HotelArcs.png" title="어센틱 심볼 : 호텔 아르크스">
                         </label>
-                        <input type="checkbox" id="autSym_2nd" name="symbol_check" onclick="onlyOneInput(this)"> 
+                        <input type="checkbox" value="8" id="autSym_2nd" name="symbol_check" onclick="onlyOneInput(this)"> 
                     </div>
                 </div>
             </div>
@@ -74,31 +74,36 @@
                 <div class="calculate">
                     <h2>심볼의 레벨 :</h2>
                     <div class="input_value">
-                        <input type="number" maxlength="2" placeholder="1 ~ 20" min="1" max="20" step="1" oninput="numberMaxLength(this)">
+                        <input type="number" id="level_input" maxlength="2" placeholder="1 ~ 19" value="1" step="1" oninput="numberMaxLength(this)">
                     </div>
                 </div>
                 <div class="calculate">
                     <h2>심볼의 갯수 :</h2>
                     <div class="input_value">
-                        <input type="number" maxlength="4" placeholder="0 ~ 2679" min="0" max="2679" step="1" oninput="numberMaxLength(this)">
+                        <input type="number" id="number_input" maxlength="4" placeholder="0 ~ 2679" step="1" oninput="numberMaxLength(this)">
                     </div>
                 </div>
                 <div class="calculate">
                     <h2>메소 (억) :</h2>
                     <div class="input_value">
-                        <input type="number" maxlength="3" placeholder="0 ~ 999" min="0" max="999" step="1" oninput="numberMaxLength(this)">
+                        <input type="number" id="meso_input_100M" maxlength="3" placeholder="0 ~ 999" step="1" oninput="numberMaxLength(this)">
                     </div>
                 </div>
                 <div class="calculate">
                     <h2>메소 (만) :</h2>
                     <div class="input_value">
-                        <input type="number" maxlength="4" placeholder="0 ~ 9999" min="0" max="9999" step="1" oninput="numberMaxLength(this)">
+                        <input type="number" id="meso_input_10K" maxlength="4" placeholder="0 ~ 9999" step="1" oninput="numberMaxLength(this)">
                     </div>
                 </div> 
             </div>
         </div>
-        <div id="result">
-            <img src="./image/StoneSpirit.png">
+        <br>
+        <div id="box_result">
+            <div class="result_icon" onclick="firstArcSymNeedMeso (), arcSymNeedNumber()"></div>
+            <div id="result">
+                <p>계산하려면 나를 눌러줘람!</p>
+                <p></p>
+            </div>
         </div>
     </div>
 </body>
