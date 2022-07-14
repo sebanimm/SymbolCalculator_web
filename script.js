@@ -1,6 +1,6 @@
 function onlyOneInput (input) {
 
-    const checkboxes = document.getElementsByName("symbol_check");
+    const checkboxes = document.getElementsByName("symbol-check");
 
     checkboxes.forEach((checkbox) => {
         checkbox.checked = false;
@@ -15,41 +15,23 @@ function numberMaxLength(object) {
     }
 }
 
-function symbolTypeCheck () {
-    let symType;
+function uncheckSymbol (btn) {
 
-    document.getElementsByName("symbol_check").addEventListener("click", function() {
-        symType = document.getElementsByName("symbol_check").value;
-    });
+    const checkboxes = document.getElementsByName("symbol-check");
 
-    if (symType === 1) {
-        firstArcSymNeedMeso();
-    }
-    else if (symType === 2) {
-        secondArcSymNeedMeso();
-    }
-    else if (symType === 3) {
-        thirdArcSymNeedMeso();
-    }
-    else if (symType === 4 || symType === 5 || symType === 6) {
-        otherArcSymsNeedMeso();
-    }
-    else if (symType === 7) {
-        firstAutSymNeedMeso();
-    }
-    else {
-        secondAutSymNeedMeso();
-    }
+    checkboxes.forEach((checkbox) => {
+        checkbox.checked = false;
+    })
+
+    btn.checked = false;
 }
 
-const userMeso10K = document.getElementById("meso_input_10K");
-const userMeso100M = document.getElementById("meso_input_100M");
 
 // 소멸의 여로 심볼 업그레이드 비용
 function firstArcSymNeedMeso () {
-    const symLv = document.getElementById("level_input").value;
-    const userMeso10K = document.getElementById("meso_input_10K").value;
-    const userMeso100M = document.getElementById("meso_input_100M").value;  
+    const symLv = document.getElementById("level-input").value;
+    const userMeso10K = parseInt(document.getElementById("meso-input-10K").value);
+    const userMeso100M = parseInt(document.getElementById("meso-input-100M").value);  
 
     let defaultMeso = 3110000;
     let needMeso = 0;
@@ -69,8 +51,9 @@ function firstArcSymNeedMeso () {
     if (needMeso10K < 0) {
         needMeso10K += 10000;
         needMeso100M -= 1;
-    }
+    } 
 
+    const needMesoTotal = needMeso100M * 10000 + needMeso10K;
     let resultMeso100M = needMeso100M - userMeso100M;
     let resultMeso10K = needMeso10K - userMeso10K;
 
@@ -79,28 +62,32 @@ function firstArcSymNeedMeso () {
         resultMeso100M -= 1;
     }
 
-    const resultMesoTotal = resultMeso100M * 10000 + resultMeso10K;
     const userMesoTotal = userMeso100M * 10000 + userMeso10K;
-    const overMesoTotal = userMesoTotal - resultMesoTotal;
-    const overMeso100M = Math.floor(overMesoTotal / 10000);
-    const overMeso10K = overMesoTotal - overMeso100M * 10000;
+    const resultMesoTotal = resultMeso100M * 10000 + resultMeso10K;
+    const overMesoTotal = needMesoTotal - userMesoTotal;
+    let overMeso100M = Math.ceil(overMesoTotal / 10000);
+  
+    const overMeso10K = overMeso100M * 10000 - overMesoTotal;
+    if (overMeso100M < 0) {
+        overMeso100M = -overMeso100M;
+    }
 
-    document.querySelector("#result > p:first-child").id = "result_meso";
+    document.querySelector("#result > p:first-child").id = "result-meso";
 
     if (resultMesoTotal > 0) {
         if (resultMeso100M > 0)
         {
-            document.getElementById("result_meso").innerHTML = `더 필요한 메소는 ${resultMeso100M}억 ${resultMeso10K}만 메소담!`;
+            document.getElementById("result-meso").innerHTML = `더 필요한 메소는 ${resultMeso100M}억 ${resultMeso10K}만 메소담!`;
         }
         else {
-            document.getElementById("result_meso").innerHTML = `더 필요한 메소는 ${resultMeso10K}만 메소담!`;
+            document.getElementById("result-meso").innerHTML = `더 필요한 메소는 ${resultMeso10K}만 메소담!`;
         }
     } 
     else if (resultMesoTotal === 0) {
-        document.getElementById("result_meso").innerHTML = `메소는 딱 남아 떨어진담!`;
+        document.getElementById("result-meso").innerHTML = `메소는 딱 남아 떨어진담!`;
     }
     else {
-        document.getElementById("result_meso").innerHTML = `메소는 충분히 많담! ${overMeso100M}억 ${overMeso10K}만 메소나 남는담!`;
+        document.getElementById("result-meso").innerHTML = `메소는 충분히 많담! ${overMeso100M}억 ${overMeso10K}만 메소나 남는담!`;
     }
 }
 
@@ -126,7 +113,7 @@ function secondArcSymNeedMeso () {
         needMeso100M -= 1;
     }
     
-    document.getElementById("box_result").innerHTML = `더 필요한 메소는 ${needMeso100M}억 ${needMeso10K}만 메소담!`;
+    document.getElementById("box-result").innerHTML = `더 필요한 메소는 ${needMeso100M}억 ${needMeso10K}만 메소담!`;
 }
 
 // 레헬른 심볼 업그레이드 비용
@@ -156,7 +143,7 @@ function thirdArcSymNeedMeso () {
 
 // 아르카나 ~ 에스페라 심볼 업그레이드 비용
 function otherArcSymsNeedMeso () {
-    const symLv = document.getElementById("level_input").value;
+    const symLv = document.getElementById("level-input").value;
     
     let defaultMeso = 11196000;
     let needMeso = 0;
@@ -183,7 +170,7 @@ function otherArcSymsNeedMeso () {
 
 // 세르니움 심볼 업그레이드 비용
 function firstAutSymNeedMeso () {
-    const symLv = document.getElementById("level_input").value;
+    const symLv = document.getElementById("level-input").value;
     
     let defaultMeso = 96900000;
     let needMeso = 0;
@@ -210,7 +197,7 @@ function firstAutSymNeedMeso () {
 
 // 호텔 아르크스 심볼 업그레이드 비용
 function secondAutSymNeedMeso () {
-    const symLv = document.getElementById("level_input").value;
+    const symLv = document.getElementById("level-input").value;
     
     let defaultMeso = 106600000;
     let needMeso = 0;
@@ -237,8 +224,8 @@ function secondAutSymNeedMeso () {
 
 // 아케인 심볼 업그레이드 필요 갯수
 function arcSymNeedNumber() {
-    const symLv = document.getElementById("level_input").value;
-    const userSymNumber = document.getElementById("number_input").value;
+    const symLv = document.getElementById("level-input").value;
+    const userSymNumber = document.getElementById("number-input").value;
 
     let needSymNumber = 0;
     const maxSymNumber = 2679;
@@ -251,23 +238,23 @@ function arcSymNeedNumber() {
 
     needSymNumber = (maxSymNumber - needSymNumber) - userSymNumber;
 
-    document.querySelector("#result > p:last-child").id = "result_number";
+    document.querySelector("#result > p:last-child").id = "result-number";
 
     if (needSymNumber > 0) {
-        document.getElementById("result_number").innerText = `더 필요한 심볼의 갯수는 ${needSymNumber}개담!`;
+        document.getElementById("result-number").innerText = `더 필요한 심볼의 갯수는 ${needSymNumber}개담!`;
     }
     else if (needSymNumber === 0) {
-        document.getElementById("result_number").innerText = `심볼은 더 필요하지 않담!`;
+        document.getElementById("result-number").innerText = `심볼은 더 필요하지 않담!`;
     }
     else {
-        document.getElementById("result_number").innerText = `심볼이 ${overSymNumber}개나 남는담! 값을 너무 많이 넣은 것 같담..`;
+        document.getElementById("result-number").innerText = `심볼이 ${overSymNumber}개나 남는담! 값을 너무 많이 넣은 것 같담..`;
     }
 }
 
 // 어센틱 심볼 업그레이드 필요 갯수
 function autSymNeedNumber () {
-    const symLv = document.getElementById("level_input").value;
-    const userSymNumber = document.getElementById("number_input").value;
+    const symLv = document.getElementById("level-input").value;
+    const userSymNumber = document.getElementById("number-input").value;
 
     let needSymNumber = 0;
     const maxSymNumber = 4565;
@@ -280,15 +267,158 @@ function autSymNeedNumber () {
 
     needSymNumber = (maxSymNumber - needSymNumber) - userSymNumber;
 
-    document.querySelector("#result > p:last-child").id = "result_number";
+    document.querySelector("#result > p:last-child").id = "result-number";
 
     if (needSymNumber > 0) {
-        document.getElementById("result_number").innerText = `더 필요한 심볼의 갯수는 ${needSymNumber}개담!`;
+        document.getElementById("result-number").innerText = `더 필요한 심볼의 갯수는 ${needSymNumber}개담!`;
     }
     else if (needSymNumber === 0) {
-        document.getElementById("result_number").innerText = `심볼은 최대치담!`;
+        document.getElementById("result-number").innerText = `심볼은 최대치담!`;
     }
     else {
-        document.getElementById("result_number").innerText = `심볼이 ${overSymNumber}개나 남는담! 값을 너무 많이 넣은 것 같담..`;
+        document.getElementById("result-number").innerText = `심볼이 ${overSymNumber}개나 남는담! 값을 너무 많이 넣은 것 같담..`;
     }
+}
+
+let symType;
+
+document.getElementsByName("symbol-check").addEventListener("click", function() {
+    symType = document.getElementsByName("symbol-check").value;
+});
+
+function symbolCalculate () {
+
+    const symLv = document.getElementById("level-input").value;
+    const userMeso10K = parseInt(document.getElementById("meso-input-10K").value);
+    const userMeso100M = parseInt(document.getElementById("meso-input-100M").value);
+
+    let defaultMeso = 0;
+    let needMeso = 0;
+    let needMeso100M = 0;
+    let needMeso10K = 0;
+    let lvUpMeso = 0;
+    let maxLvMeso = 0;
+
+    function firstArcSymNeedMeso () {
+        defaultMeso += 3110000;
+        lvUpMeso += 3960000;
+        maxLvMeso += 811490000;
+    }
+
+    function secondArcSymNeedMeso () {
+        defaultMeso += 3110000;
+        lvUpMeso += 3960000;
+        maxLvMeso += 811490000;
+    }
+
+    function thirdArcSymNeedMeso () {
+        defaultMeso += 3110000;
+        lvUpMeso += 3960000;
+        maxLvMeso += 811490000;
+    }
+
+    function otherArcSymsNeedMeso () {
+        defaultMeso += 3110000;
+        lvUpMeso += 3960000;
+        maxLvMeso += 811490000;
+    }
+
+    function firstAutSymNeedMeso () {
+        defaultMeso += 3110000;
+        lvUpMeso += 3960000;
+        maxLvMeso += 811490000;
+    }
+
+    function firstAutSymNeedMeso () {
+        defaultMeso += 3110000;
+        lvUpMeso += 3960000;
+        maxLvMeso += 811490000;
+    }
+
+
+    if (symType === 1) {
+        firstArcSymNeedMeso;
+    }
+    else if (symType === 2) {
+        secondArcSymNeedMeso;
+    }
+    else if (symType === 3) {
+        thirdArcSymNeedMeso;
+    }
+    else if (symType === 4 || symType === 5 || symType === 6) {
+        otherArcSymsNeedMeso;
+    }
+    else if (symType === 7) {
+        firstAutSymNeedMeso;
+    }
+    else {
+        secondAutSymNeedMeso;
+    }
+
+    if (symType >= 1 && symType <= 6) {
+        arcSymNeedNumber;
+    }
+    else {
+        autSymNeedNumber;
+    }
+
+
+    
+    for (let i = 1; i < symLv; i++) {
+        defaultMeso += lvUpMeso;
+        needMeso += defaultMeso;
+    }
+    
+    needMeso = maxLvMeso - needMeso;
+    needMeso100M = Math.floor(needMeso / 100000000);
+    needMeso10K =  Math.floor((needMeso / 10000) - (needMeso100M * 10000));
+    
+    if (needMeso10K < 0) {
+        needMeso10K += 10000;
+        needMeso100M -= 1;
+    } 
+
+    const needMesoTotal = needMeso100M * 10000 + needMeso10K;
+    let resultMeso100M = needMeso100M - userMeso100M;
+    let resultMeso10K = needMeso10K - userMeso10K;
+
+    if (resultMeso10K < 0) {
+        resultMeso10K += 10000;
+        resultMeso100M -= 1;
+    }
+
+    const userMesoTotal = userMeso100M * 10000 + userMeso10K;
+    const resultMesoTotal = resultMeso100M * 10000 + resultMeso10K;
+    const overMesoTotal = needMesoTotal - userMesoTotal;
+    let overMeso100M = Math.ceil(overMesoTotal / 10000);
+  
+    const overMeso10K = overMeso100M * 10000 - overMesoTotal;
+    if (overMeso100M < 0) {
+        overMeso100M = -overMeso100M;
+    }
+
+    document.querySelector("#result > p:first-child").id = "result-meso";
+    
+    if (resultMesoTotal > 0) {
+        if (resultMeso100M > 0)
+        {
+            document.getElementById("result-meso").innerHTML = `더 필요한 메소는 ${resultMeso100M}억 ${resultMeso10K}만 메소담!`;
+        }
+        else {
+            document.getElementById("result-meso").innerHTML = `더 필요한 메소는 ${resultMeso10K}만 메소담!`;
+        }
+    } 
+    else if (resultMesoTotal === 0) {
+        document.getElementById("result-meso").innerHTML = `메소는 딱 남아 떨어진담!`;
+    }
+    else {
+        document.getElementById("result-meso").innerHTML = `메소는 충분히 많담! ${overMeso100M}억 ${overMeso10K}만 메소나 남는담!`;
+    }
+
+    defaultMeso = 0;
+    needMeso = 0;
+    needMeso100M = 0;
+    needMeso10K = 0;
+    lvUpMeso = 0;
+    maxLvMeso = 0;
 }
